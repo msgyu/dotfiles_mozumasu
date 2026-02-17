@@ -158,6 +158,8 @@ nfu
 ngc
 ```
 
+> ホスト名の自動判定に失敗する場合は、`NIX_HOSTNAME` を設定してください。
+
 ---
 
 ## Commit Message
