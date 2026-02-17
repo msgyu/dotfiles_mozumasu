@@ -55,7 +55,6 @@
       "navi"
       "sshs"
       "sshpass"
-      "subversion"
       "texinfo"
       "groff"
       "diffutils"
