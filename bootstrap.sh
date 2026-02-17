@@ -35,6 +35,7 @@ else
   echo "Dotfiles already exist at $DOTFILES_DIR."
 fi
 
+
 if [ -f /etc/bashrc ] && [ ! -f /etc/bashrc.before-nix-darwin ]; then
   sudo mv /etc/bashrc /etc/bashrc.before-nix-darwin
 fi
