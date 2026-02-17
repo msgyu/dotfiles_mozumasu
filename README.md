@@ -10,15 +10,15 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-## Tools
+## ツール
 
-- terminal: [wezterm](https://wezfurlong.org/wezterm/index.html)
-- shell: [zsh](https://www.zsh.org/)
-- editor: [Neovim](https://neovim.io/)
+- ターミナル: [wezterm](https://wezfurlong.org/wezterm/index.html)
+- シェル: [zsh](https://www.zsh.org/)
+- エディタ: [Neovim](https://neovim.io/)
 
   <img src="images/Neovim.png" alt="Neovim" width="850"/>
 
-### Settings
+### 設定
 
 - wezterm  
   [.config/wezterm](https://github.com/msgyu/dotfiles_mozumasu/tree/main/.config/wezterm)
@@ -29,9 +29,9 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-## Articles
+## 記事
 
-- [💘How to setup wezterm](https://zenn.dev/mozumasu/articles/mozumasu-wezterm-customization)
+- [💘weztermのセットアップ方法](https://zenn.dev/mozumasu/articles/mozumasu-wezterm-customization)
 
 ```text
 
@@ -72,14 +72,14 @@
 
 ---
 
-## Setup (New Mac)
+## セットアップ（新しいMac）
 
-### Prerequisites
+### 前提条件
 
 - macOS (Apple Silicon)
-- Git (インストールとGitHub認証設定まで)
+- Git（インストールとGitHub認証設定まで）
 
-#### GitHub SSHセットアップ（Homebrew taps用）
+#### GitHub SSHセットアップ（Homebrew tap用）
 
 ```bash
 # SSH鍵を作成
@@ -104,89 +104,92 @@ pbcopy < ~/.ssh/id_ed25519.pub
 ssh -T git@github.com
 ```
 
-### Installation
+### インストール
 
-#### Bootstrap (Recommended)
+#### Bootstrap（推奨）
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/msgyu/dotfiles_mozumasu/main/bootstrap.sh | bash
 ```
 
-#### Manual
+#### 手動
 
 ```bash
-# 0. (Optional) Ensure LocalHostName matches flake host
-# Example: sudo scutil --set LocalHostName gyu
+# 0. （任意）LocalHostName を flake のホスト名に合わせる
+# 例: sudo scutil --set LocalHostName gyu
 
-# 1. Install Nix
+# 1. Nixをインストール
 sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 
-# 2. Set dotfiles directory
+# 2. dotfilesディレクトリを設定
 DOTFILES_DIR="$HOME/dotfiles"
 
-# 3. Clone dotfiles (use nix-shell if git is not installed)
+# 3. dotfilesをクローン（gitが無ければnix-shellを使用）
 nix-shell -p git --run "git clone https://github.com/msgyu/dotfiles_mozumasu $DOTFILES_DIR"
 
-# 4. Backup existing shell configs (first time only)
+# 4. 既存のシェル設定をバックアップ（初回のみ）
 sudo mv /etc/bashrc /etc/bashrc.before-nix-darwin
 sudo mv /etc/zshrc /etc/zshrc.before-nix-darwin
 
-# 5. Apply nix-darwin configuration (first time)
+# 5. Homebrew tap はSSHで取得
+export HOMEBREW_GIT_PROTOCOL=ssh
+
+# 6. nix-darwin設定を適用（初回）
 HOSTNAME=$(scutil --get LocalHostName)
-sudo nix run \
+sudo --preserve-env=HOMEBREW_GIT_PROTOCOL nix run \
   --extra-experimental-features nix-command \
   --extra-experimental-features flakes \
   nix-darwin -- switch --flake "$DOTFILES_DIR/.config/nix#$HOSTNAME"
 
-# After initial setup, use:
-# nix-switch (or darwin-rebuild switch --flake $DOTFILES_DIR/.config/nix#$HOSTNAME)
+# 初回セットアップ後は以下を使用:
+# nix-switch（または darwin-rebuild switch --flake $DOTFILES_DIR/.config/nix#$HOSTNAME）
 ```
 
-> Homebrew is automatically installed via [nix-homebrew](https://github.com/zhaofengli/nix-homebrew)
-> (GUI apps only; CLI tools are managed by Nix).
+> Homebrew は [nix-homebrew](https://github.com/zhaofengli/nix-homebrew) により自動インストールされます
+>（GUIアプリのみ。CLIツールはNix管理）。
 
-> Note: Tap installs require GitHub authentication. Prepare SSH keys or a PAT beforehand.
+> Tap の取得には GitHub 認証が必要です。事前に SSH 鍵または PAT を準備してください。
 
-> Nix community cache is enabled for faster installs.
+> Nix community cache を有効化してインストールを高速化しています。
 
-### Available Hosts
+### 利用可能なホスト
 
-| Host | Description |
-|------|-------------|
-| `geisha` | Main Mac |
-| `bourbon` | Second Mac |
-| `gyu` | Personal Mac |
+| ホスト | 説明 |
+|------|------|
+| `geisha` | メインMac |
+| `bourbon` | サブMac |
+| `gyu` | 個人Mac |
 
-### What's Managed by Nix
+### Nixで管理しているもの
 
-| Category | Description |
-|----------|-------------|
-| **Homebrew** | Auto-installed via nix-homebrew (GUI apps only) |
-| **CLI Tools** | Packages via home-manager |
-| **GUI Apps** | Casks via Homebrew |
-| **Dotfiles** | nvim, zsh, wezterm, karabiner, etc. |
-| **macOS Settings** | Dock, Finder, Keyboard, Trackpad, etc. |
+| カテゴリ | 説明 |
+|----------|------|
+| **Homebrew** | nix-homebrew で自動インストール（GUIアプリのみ） |
+| **CLIツール** | home-manager で管理 |
+| **GUIアプリ** | Homebrew の cask で管理 |
+| **Dotfiles** | nvim, zsh, wezterm, karabiner など |
+| **macOS設定** | Dock, Finder, Keyboard, Trackpad など |
 
-### Manual Setup Required
+### 手動設定が必要なもの
 
-| Item | Reason |
-|------|--------|
-| Apple ID | Security |
-| App Logins | Authentication |
-| SSH Keys | `~/.ssh/` not managed |
-| AWS/Git Credentials | Sensitive data |
-| Karabiner Permissions | Accessibility permissions |
+| 項目 | 理由 |
+|------|------|
+| Apple ID | セキュリティ |
+| アプリのログイン | 認証情報 |
+| SSH鍵 | `~/.ssh/` は未管理 |
+| AWS/Git 認証 | 機密情報 |
+| Karabiner 権限 | アクセシビリティ権限 |
 
-### Daily Commands
+### 日常コマンド
 
 ```bash
-# Apply configuration changes
+# 設定の適用
 nix-switch
 
-# Update flake inputs
+# flake入力の更新
 nfu
 
-# Garbage collection
+# ガベージコレクション
 ngc
 ```
 
@@ -194,7 +197,7 @@ ngc
 
 ---
 
-## Commit Message
+## コミットメッセージ
 
 ```sh
 npx czg --api-endpoint="https://models.inference.ai.azure.com" --api-model="gpt-4o-mini"
