@@ -1,6 +1,10 @@
 { config, lib, ... }:
 {
   homebrew = lib.mkIf (!config.hostSpec.isWork) {
+    brews = [
+      "session-manager-plugin"
+    ];
+
     # Personal-only casks
     casks = [
       # Window management

@@ -53,7 +53,6 @@
     colima
     docker
     k6
-    session-manager-plugin
     vhs
     # pre-commit # 一時的に無効化（swiftビルドエラー回避）
 
