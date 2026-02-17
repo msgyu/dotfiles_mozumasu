@@ -4,7 +4,6 @@
   hostSpec = {
     hostName = "gyu";
     username = "gyu";
-    dotfilesDir = "/Users/gyu/dotfiles";
     system = "aarch64-darwin";
     enableGUI = true;
   };
