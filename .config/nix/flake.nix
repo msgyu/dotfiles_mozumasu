@@ -94,7 +94,7 @@
 
       # Hostname resolution with fallback
       hostNameScript = ''
-        host_name="${NIX_HOSTNAME:-}"
+        host_name="''${NIX_HOSTNAME:-}"
         if [ -z "$host_name" ]; then
           host_name="$(scutil --get LocalHostName 2>/dev/null || true)"
         fi
