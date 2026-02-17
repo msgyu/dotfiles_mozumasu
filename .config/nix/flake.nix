@@ -63,7 +63,6 @@
         skanehira-ghost = final.callPackage ./packages/ghost.nix { };
         yaskkserv2 = final.callPackage ./packages/yaskkserv2.nix { };
         safe-chain = final.callPackage ./packages/safe-chain.nix { };
-        kiro-cli = final.callPackage ./packages/kiro.nix { };
         czg = final.callPackage ./packages/czg.nix { };
         version-lsp = version-lsp.packages.${system}.default;
         plamo-translate = kawarimidoll-nur.packages.${system}.plamo-translate;
@@ -92,6 +91,24 @@
           }
         }/bin/${name}";
       };
+
+      # Hostname resolution with fallback
+      hostNameScript = ''
+        host_name="${NIX_HOSTNAME:-}"
+        if [ -z "$host_name" ]; then
+          host_name="$(scutil --get LocalHostName 2>/dev/null || true)"
+        fi
+        if [ -z "$host_name" ]; then
+          host_name="$(scutil --get ComputerName 2>/dev/null || true)"
+        fi
+        if [ -z "$host_name" ]; then
+          host_name="$(hostname -s 2>/dev/null || hostname)"
+        fi
+        if [ -z "$host_name" ]; then
+          echo "Failed to determine host name. Set NIX_HOSTNAME." >&2
+          exit 1
+        fi
+      '';
 
       # Common modules shared by all hosts
       commonModules = [
@@ -125,6 +142,7 @@
               users.${config.hostSpec.username} = import ./home-manager;
               sharedModules = [
                 sops-nix.homeManagerModules.sops
+                ({ hostSpec, ... }: { inherit hostSpec; })
               ];
             };
           }
@@ -155,7 +173,6 @@
 
       packages.${system} = {
         inherit (pkgs)
-          kiro-cli
           safe-chain
           yaskkserv2
           skanehira-ghost
@@ -166,17 +183,20 @@
       apps.${system} = {
         # nix run .#switch
         switch = mkApp "darwin-switch" ''
-          sudo darwin-rebuild switch --flake "${flakeDir}#geisha"
+          ${hostNameScript}
+          sudo darwin-rebuild switch --flake "${flakeDir}#$host_name"
         '';
 
         # nix run .#build
         build = mkApp "darwin-build" ''
-          darwin-rebuild build --flake "${flakeDir}#geisha"
+          ${hostNameScript}
+          darwin-rebuild build --flake "${flakeDir}#$host_name"
         '';
 
         # nix run .#check
         check = mkApp "darwin-check" ''
-          darwin-rebuild check --flake "${flakeDir}#geisha"
+          ${hostNameScript}
+          darwin-rebuild check --flake "${flakeDir}#$host_name"
         '';
 
         # nix run .#update
@@ -184,7 +204,8 @@
           echo "Updating flake..."
           nix flake update --flake "${flakeDir}"
           echo "Rebuilding nix-darwin (includes home-manager)..."
-          sudo darwin-rebuild switch --flake "${flakeDir}#geisha"
+          ${hostNameScript}
+          sudo darwin-rebuild switch --flake "${flakeDir}#$host_name"
           echo "Update complete!"
         '';
       };
@@ -203,6 +224,11 @@
         mocha = darwin.lib.darwinSystem {
           inherit system;
           modules = [ ./hosts/mocha ] ++ commonModules;
+        };
+
+        gyu = darwin.lib.darwinSystem {
+          inherit system;
+          modules = [ ./hosts/gyu ] ++ commonModules;
         };
       };
     };

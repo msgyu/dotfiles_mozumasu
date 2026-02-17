@@ -1,3 +1,5 @@
+local dotfiles_dir = vim.env.DOTFILES_DIR
+
 return {
   {
     "folke/snacks.nvim",
@@ -74,7 +76,7 @@ return {
               desc = "Find File",
               action = function()
                 local cwd = vim.fn.getcwd()
-                local hidden = cwd:match("dotfiles$") ~= nil
+                local hidden = cwd == dotfiles_dir
                 Snacks.picker.files({ cwd = cwd, hidden = hidden })
               end,
             },
@@ -85,7 +87,7 @@ return {
               desc = "Find Text",
               action = function()
                 local cwd = vim.fn.getcwd()
-                local hidden = cwd:match("dotfiles$") ~= nil
+                local hidden = cwd == dotfiles_dir
                 Snacks.picker.grep({ cwd = cwd, hidden = hidden })
               end,
             },

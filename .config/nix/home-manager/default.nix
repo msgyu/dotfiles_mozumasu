@@ -1,7 +1,7 @@
 {
+  config,
   lib,
   pkgs,
-  hostSpec,
   ...
 }:
 {
@@ -12,8 +12,8 @@
     ./sops.nix
   ];
 
-  home.username = hostSpec.username;
-  home.homeDirectory = lib.mkForce "/Users/${hostSpec.username}";
+  home.username = config.hostSpec.username;
+  home.homeDirectory = lib.mkForce "/Users/${config.hostSpec.username}";
   home.stateVersion = "24.11";
 
   programs.home-manager.enable = true;

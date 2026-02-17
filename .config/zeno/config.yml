@@ -11,7 +11,7 @@ history:
 
 snippets:
   - keyword: sym
-    snippet: ~/dotfiles/.bin/symlink.sh
+    snippet: $DOTFILES_DIR/.bin/symlink.sh
 
   - keyword: rm-ln
     snippet: find ~/.config -type l ! -exec test -e {} \; -exec rm -i {} \;

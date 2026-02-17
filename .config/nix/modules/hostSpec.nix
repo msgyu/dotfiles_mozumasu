@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, lib, ... }:
 {
   options.hostSpec = {
     hostName = lib.mkOption {
@@ -10,6 +10,12 @@
       type = lib.types.str;
       default = "mozumasu";
       description = "Username";
+    };
+
+    dotfilesDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/Users/${config.hostSpec.username}/dotfiles";
+      description = "Dotfiles directory path";
     };
 
     system = lib.mkOption {
