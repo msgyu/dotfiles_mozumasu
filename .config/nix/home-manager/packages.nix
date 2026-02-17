@@ -8,7 +8,9 @@
     fzf
     hyperfine
     ripgrep
+    sheldon
     zoxide
+    zsh-completions
     tree
     wget
     jq
@@ -47,7 +49,11 @@
 
     # インフラ/DevOps
     awscli2
+    aws-vault
+    colima
+    docker
     k6
+    session-manager-plugin
     vhs
     # pre-commit # 一時的に無効化（swiftビルドエラー回避）
 
@@ -62,6 +68,7 @@
     # モニタリング/ユーティリティ
     bottom
     fastfetch
+    gomi
     glow
     presenterm # Terminal slideshow
     yazi
@@ -80,6 +87,7 @@
 
     # その他
     translate-shell
+    terminal-notifier
     nkf
     rename
     inetutils # telnet

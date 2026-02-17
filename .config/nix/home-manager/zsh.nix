@@ -6,7 +6,7 @@
 }:
 let
   # dotfiles のパス
-  dotfilesDir = config.hostSpec.dotfilesDir;
+  dotfilesDir = "${config.home.homeDirectory}/dotfiles";
   zshConfigDir = "${dotfilesDir}/.config/zsh";
 in
 {
