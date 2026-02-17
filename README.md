@@ -77,7 +77,32 @@
 ### Prerequisites
 
 - macOS (Apple Silicon)
-- Git
+- Git (インストールとGitHub認証設定まで)
+
+#### GitHub SSHセットアップ（Homebrew taps用）
+
+```bash
+# SSH鍵を作成
+ssh-keygen -t ed25519 -C "you@example.com" -f ~/.ssh/id_ed25519
+
+# ssh-agent に登録（macOS）
+eval "$(ssh-agent -s)"
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+
+# GitHub用にSSH設定を追加
+cat >> ~/.ssh/config <<'EOF'
+Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+EOF
+
+# 公開鍵をコピーしてGitHubに登録（Settings → SSH and GPG keys）
+pbcopy < ~/.ssh/id_ed25519.pub
+
+# 接続確認
+ssh -T git@github.com
+```
 
 ### Installation
 
