@@ -1,6 +1,6 @@
-{ config, pkgs, hostSpec, ... }:
+{ config, pkgs, ... }:
 let
-  dotfilesPath = hostSpec.dotfilesDir;
+  dotfilesPath = config.hostSpec.dotfilesDir;
   mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
 in
 {

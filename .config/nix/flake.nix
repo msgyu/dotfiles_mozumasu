@@ -142,6 +142,7 @@
               users.${config.hostSpec.username} = import ./home-manager;
               sharedModules = [
                 sops-nix.homeManagerModules.sops
+                ({ hostSpec, ... }: { inherit hostSpec; })
               ];
             };
           }

@@ -2,12 +2,11 @@
   config,
   lib,
   pkgs,
-  hostSpec,
   ...
 }:
 let
   # dotfiles のパス
-  dotfilesDir = hostSpec.dotfilesDir;
+  dotfilesDir = config.hostSpec.dotfilesDir;
   zshConfigDir = "${dotfilesDir}/.config/zsh";
 in
 {
