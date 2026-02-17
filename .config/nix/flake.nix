@@ -63,7 +63,6 @@
         skanehira-ghost = final.callPackage ./packages/ghost.nix { };
         yaskkserv2 = final.callPackage ./packages/yaskkserv2.nix { };
         safe-chain = final.callPackage ./packages/safe-chain.nix { };
-        kiro-cli = final.callPackage ./packages/kiro.nix { };
         czg = final.callPackage ./packages/czg.nix { };
         version-lsp = version-lsp.packages.${system}.default;
         plamo-translate = kawarimidoll-nur.packages.${system}.plamo-translate;
@@ -155,7 +154,6 @@
 
       packages.${system} = {
         inherit (pkgs)
-          kiro-cli
           safe-chain
           yaskkserv2
           skanehira-ghost
