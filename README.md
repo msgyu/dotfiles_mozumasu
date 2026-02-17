@@ -21,11 +21,11 @@
 ### Settings
 
 - wezterm  
-  [.config/wezterm](https://github.com/mozumasu/dotfiles/tree/main/.config/wezterm)
+  [.config/wezterm](https://github.com/msgyu/dotfiles_mozumasu/tree/main/.config/wezterm)
 - zsh  
-  [.config/zsh](https://github.com/mozumasu/dotfiles/tree/main/.config/zsh)
+  [.config/zsh](https://github.com/msgyu/dotfiles_mozumasu/tree/main/.config/zsh)
 - Neovim  
-  [.config/nvim](https://github.com/mozumasu/dotfiles/tree/main/.config/nvim)
+  [.config/nvim](https://github.com/msgyu/dotfiles_mozumasu/tree/main/.config/nvim)
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
@@ -85,23 +85,33 @@
 # 1. Install Nix
 sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 
-# 2. Clone dotfiles (use nix-shell if git is not installed)
-nix-shell -p git --run "git clone https://github.com/mozumasu/dotfiles ~/dotfiles"
+# 2. Set dotfiles directory
+DOTFILES_DIR="$HOME/dotfiles-mozumasu"
 
-# 3. Backup existing shell configs (first time only)
+# 3. Clone dotfiles (use nix-shell if git is not installed)
+nix-shell -p git --run "git clone https://github.com/msgyu/dotfiles_mozumasu $DOTFILES_DIR"
+
+# 4. Update hostSpec dotfilesDir if needed
+# If DOTFILES_DIR is not /Users/<username>/dotfiles, set dotfilesDir in your host config.
+# Example: .config/nix/hosts/<hostname>/default.nix
+#   hostSpec = {
+#     dotfilesDir = "$DOTFILES_DIR";
+#   };
+
+# 5. Backup existing shell configs (first time only)
 sudo mv /etc/bashrc /etc/bashrc.before-nix-darwin
 sudo mv /etc/zshrc /etc/zshrc.before-nix-darwin
 
-# 4. Apply nix-darwin configuration (first time)
+# 6. Apply nix-darwin configuration (first time)
 # Note: $HOME is expanded before sudo runs, so the path is correct
 # Replace <hostname> with your host name (geisha, bourbon, etc.)
 sudo nix run \
   --extra-experimental-features nix-command \
   --extra-experimental-features flakes \
-  nix-darwin -- switch --flake "$HOME/dotfiles/.config/nix#<hostname>"
+  nix-darwin -- switch --flake "$DOTFILES_DIR/.config/nix#<hostname>"
 
 # After initial setup, use:
-# nix-switch (or darwin-rebuild switch --flake ~/dotfiles/.config/nix#<hostname>)
+# nix-switch (or darwin-rebuild switch --flake $DOTFILES_DIR/.config/nix#<hostname>)
 ```
 
 > Homebrew is automatically installed via [nix-homebrew](https://github.com/zhaofengli/nix-homebrew)
@@ -112,6 +122,7 @@ sudo nix run \
 |------|-------------|
 | `geisha` | Main Mac |
 | `bourbon` | Second Mac |
+| `gyu` | Personal Mac |
 
 ### What's Managed by Nix
 

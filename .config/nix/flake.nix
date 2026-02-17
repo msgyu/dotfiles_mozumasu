@@ -166,17 +166,17 @@
       apps.${system} = {
         # nix run .#switch
         switch = mkApp "darwin-switch" ''
-          sudo darwin-rebuild switch --flake "${flakeDir}#geisha"
+          sudo darwin-rebuild switch --flake "${flakeDir}#$(scutil --get LocalHostName)"
         '';
 
         # nix run .#build
         build = mkApp "darwin-build" ''
-          darwin-rebuild build --flake "${flakeDir}#geisha"
+          darwin-rebuild build --flake "${flakeDir}#$(scutil --get LocalHostName)"
         '';
 
         # nix run .#check
         check = mkApp "darwin-check" ''
-          darwin-rebuild check --flake "${flakeDir}#geisha"
+          darwin-rebuild check --flake "${flakeDir}#$(scutil --get LocalHostName)"
         '';
 
         # nix run .#update
@@ -184,7 +184,7 @@
           echo "Updating flake..."
           nix flake update --flake "${flakeDir}"
           echo "Rebuilding nix-darwin (includes home-manager)..."
-          sudo darwin-rebuild switch --flake "${flakeDir}#geisha"
+          sudo darwin-rebuild switch --flake "${flakeDir}#$(scutil --get LocalHostName)"
           echo "Update complete!"
         '';
       };
@@ -203,6 +203,11 @@
         mocha = darwin.lib.darwinSystem {
           inherit system;
           modules = [ ./hosts/mocha ] ++ commonModules;
+        };
+
+        gyu = darwin.lib.darwinSystem {
+          inherit system;
+          modules = [ ./hosts/gyu ] ++ commonModules;
         };
       };
     };

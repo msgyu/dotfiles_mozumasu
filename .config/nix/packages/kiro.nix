@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://desktop-release.q.us-east-1.amazonaws.com/latest/Kiro%20CLI.dmg";
-    hash = "sha256-1jCw2Ae53FVLJb8RpGX7GlSNybtkLqZ6plAy+zGJMSQ=";
+    hash = "sha256-s3//DLCh48NgJ1JdBO2oG3iT82MjTbh98a/pRCnhRhc=";
   };
 
   nativeBuildInputs = [ undmg ];

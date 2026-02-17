@@ -7,6 +7,7 @@ local keydel = vim.keymap.del
 
 local opts = { noremap = true, silent = true }
 local util = require("lazyvim.util")
+local dotfiles_dir = vim.env.DOTFILES_DIR
 
 -- emacs like keybind
 keymap("i", "<C-a>", "<Home>", opts)
@@ -86,14 +87,14 @@ end, { desc = "LazyGit (Root Dir)" })
 -- Find Files from project root
 keymap("n", "<leader><leader>", function()
   local cwd = get_git_root()
-  local hidden = cwd:match("dotfiles$") ~= nil
+  local hidden = cwd == dotfiles_dir
   Snacks.picker.files({ cwd = cwd, hidden = hidden })
 end, { desc = "Find Files (Root Dir)" })
 
 -- Grep from project root
 keymap("n", "<leader>/", function()
   local cwd = get_git_root()
-  local hidden = cwd:match("dotfiles$") ~= nil
+  local hidden = cwd == dotfiles_dir
   Snacks.picker.grep({ cwd = cwd, hidden = hidden })
 end, { desc = "Grep (Root Dir)" })
 

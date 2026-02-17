@@ -2,11 +2,12 @@
   config,
   lib,
   pkgs,
+  hostSpec,
   ...
 }:
 let
   # dotfiles のパス
-  dotfilesDir = "${config.home.homeDirectory}/dotfiles";
+  dotfilesDir = hostSpec.dotfilesDir;
   zshConfigDir = "${dotfilesDir}/.config/zsh";
 in
 {
@@ -82,6 +83,7 @@ in
       MANPAGER = "nvim +Man!";
       LESSHISTFILE = "\${XDG_STATE_HOME:-$HOME/.local/state}/less/history";
       LISTMAX = "50";
+      DOTFILES_DIR = dotfilesDir;
     };
 
     # .zshenv に追加する内容
@@ -345,7 +347,7 @@ in
         if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
           PATH="''${PATH:+''${PATH}:}/opt/homebrew/opt/fzf/bin"
         fi
-        zsh-defer source "$HOME/dotfiles/.config/zsh/rc/pluginconfig/fzf.key-bindings.zsh"
+        zsh-defer source "${dotfilesDir}/.config/zsh/rc/pluginconfig/fzf.key-bindings.zsh"
 
         # ----------------------------------------------------
         # starship

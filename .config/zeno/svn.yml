@@ -9,7 +9,7 @@ snippets:
 
   - name: svn status help
     keyword: svnbat
-    snippet: bat ~/dotfiles/docs/svn.md
+    snippet: bat $DOTFILES_DIR/docs/svn.md
 
   - name: svn add
     keyword: svna
