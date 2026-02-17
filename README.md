@@ -86,23 +86,16 @@
 sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 
 # 2. Set dotfiles directory
-DOTFILES_DIR="$HOME/dotfiles-mozumasu"
+DOTFILES_DIR="$HOME/dotfiles"
 
 # 3. Clone dotfiles (use nix-shell if git is not installed)
 nix-shell -p git --run "git clone https://github.com/msgyu/dotfiles_mozumasu $DOTFILES_DIR"
 
-# 4. Update hostSpec dotfilesDir if needed
-# If DOTFILES_DIR is not /Users/<username>/dotfiles, set dotfilesDir in your host config.
-# Example: .config/nix/hosts/<hostname>/default.nix
-#   hostSpec = {
-#     dotfilesDir = "$DOTFILES_DIR";
-#   };
-
-# 5. Backup existing shell configs (first time only)
+# 4. Backup existing shell configs (first time only)
 sudo mv /etc/bashrc /etc/bashrc.before-nix-darwin
 sudo mv /etc/zshrc /etc/zshrc.before-nix-darwin
 
-# 6. Apply nix-darwin configuration (first time)
+# 5. Apply nix-darwin configuration (first time)
 # Note: $HOME is expanded before sudo runs, so the path is correct
 # Replace <hostname> with your host name (geisha, bourbon, etc.)
 sudo nix run \
