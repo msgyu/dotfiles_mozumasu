@@ -79,7 +79,7 @@
 - macOS (Apple Silicon)
 - Git（インストールとGitHub認証設定まで）
 
-#### GitHub SSHセットアップ（Homebrew tap用）
+#### GitHub SSHセットアップ（任意）
 
 ```bash
 # SSH鍵を作成
@@ -131,12 +131,9 @@ nix-shell -p git --run "git clone https://github.com/msgyu/dotfiles_mozumasu $DO
 sudo mv /etc/bashrc /etc/bashrc.before-nix-darwin
 sudo mv /etc/zshrc /etc/zshrc.before-nix-darwin
 
-# 5. Homebrew tap はSSHで取得
-export HOMEBREW_GIT_PROTOCOL=ssh
-
-# 6. nix-darwin設定を適用（初回）
+# 5. nix-darwin設定を適用（初回）
 HOSTNAME=$(scutil --get LocalHostName)
-sudo --preserve-env=HOMEBREW_GIT_PROTOCOL nix run \
+sudo nix run \
   --extra-experimental-features nix-command \
   --extra-experimental-features flakes \
   nix-darwin -- switch --flake "$DOTFILES_DIR/.config/nix#$HOSTNAME"
@@ -148,7 +145,7 @@ sudo --preserve-env=HOMEBREW_GIT_PROTOCOL nix run \
 > Homebrew は [nix-homebrew](https://github.com/zhaofengli/nix-homebrew) により自動インストールされます
 >（GUIアプリのみ。CLIツールはNix管理）。
 
-> Tap の取得には GitHub 認証が必要です。事前に SSH 鍵または PAT を準備してください。
+> tap を追加する場合は GitHub 認証が必要になるため、SSH 鍵や PAT を準備してください。
 
 > Nix community cache を有効化してインストールを高速化しています。
 

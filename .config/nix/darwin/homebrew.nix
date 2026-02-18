@@ -8,20 +8,5 @@
       cleanup = "uninstall";
     };
 
-    taps = [
-      "arto-app/tap"
-      "d12frosted/emacs-plus"
-      "felixkratz/formulae"
-      "ghostty-org/ghostty"
-      "homebrew/cask-fonts"
-      "mtgto/macskk"
-      "nikitabobko/tap"
-      "olets/tap"
-      "sh0nk/tap"
-      "shu-pf/tap"
-      "timac/vpnstatus"
-      "wez/wezterm-nightly"
-      "xwmx/taps"
-    ];
   };
 }

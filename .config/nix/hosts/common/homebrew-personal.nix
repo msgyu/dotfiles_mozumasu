@@ -37,13 +37,6 @@
       "istat-menus"
       "keycastr"
       "sf-symbols"
-      "timac/vpnstatus/vpnstatus"
-
-      # Fonts (hackgen fonts are in common homebrew.nix)
-      "font-hack-nerd-font"
-      "font-sf-mono"
-      "font-sf-pro"
-      "font-udev-gothic-nf"
 
       # Virtualization
       "multipass"
